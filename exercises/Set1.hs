@@ -109,18 +109,16 @@ isZero _ = False
 -- computes the sum 1+2+...+n
 
 sumTo :: Integer -> Integer
-sumTo n = if n == 1
-          then 1
-          else sumTo (n-1) + n
+sumTo 0 = 0
+sumTo n = sumTo (n-1) + n
 
 ------------------------------------------------------------------------------
 -- Ex 10: power n k should compute n to the power k (i.e. n^k)
 -- Use recursion.
 
 power :: Integer -> Integer -> Integer
-power n k = if k == 1
-            then n
-            else power n (k-1) * n
+power n 1 = n
+power n k = power n (k-1) * n
 
 ------------------------------------------------------------------------------
 -- Ex 11: ilog3 n should be the number of times you can divide given
@@ -139,6 +137,5 @@ power n k = if k == 1
 --   ilog3 7 ==> 2
 
 ilog3 :: Integer -> Integer
-ilog3 n = if n `div` 3 == 0
-          then 1
-          else 1 + ilog3 (n `div` 3)
+ilog3 0 = 0
+ilog3 n = 1 + ilog3 (n `div` 3)

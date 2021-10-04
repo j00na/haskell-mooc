@@ -20,10 +20,12 @@ import Mooc.Todo
 ------------------------------------------------------------------------------
 -- Ex 1: define variables one and two. They should have type Int and
 -- values 1 and 2, respectively.
+
 one :: Int
 one = 1
 two :: Int
 two = 2
+
 ------------------------------------------------------------------------------
 -- Ex 2: define the function double of type Integer->Integer. Double
 -- should take one argument and return it multiplied by two.
@@ -63,9 +65,7 @@ distance x1 y1 x2 y2 = sqrt ((x2-x1)^2 + (y2-y1)^2)
 -- Ps. have a look at the built in function "even"
 
 eeny :: Integer -> String
-eeny x = if even x
-         then "eeny"
-         else "meeny"
+eeny x = if even x then "eeny" else "meeny"
 
 ------------------------------------------------------------------------------
 -- Ex 6: here's the function checkPassword from the course material.
@@ -138,4 +138,4 @@ power n k = power n (k-1) * n
 
 ilog3 :: Integer -> Integer
 ilog3 0 = 0
-ilog3 n = 1 + ilog3 (n `div` 3)
+ilog3 n = 1 + ilog3 (div n 3)

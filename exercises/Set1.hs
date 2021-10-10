@@ -25,7 +25,6 @@ one :: Int
 one = 1
 two :: Int
 two = 2
--- hey, this is a test
 ------------------------------------------------------------------------------
 -- Ex 2: define the function double of type Integer->Integer. Double
 -- should take one argument and return it multiplied by two.

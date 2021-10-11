@@ -89,9 +89,9 @@ isPalindrome str = str == reverse str
 --   palindromify "abracacabra" ==> "acaca"
 
 palindromify :: String -> String
-palindromify s = if isPalindrome s || length s == 0
-                 then s
-                 else palindromify (drop 1 (init s))
+palindromify s
+  | isPalindrome s = s
+  | otherwise      = palindromify (tail (init s))
 
 ------------------------------------------------------------------------------
 -- Ex 7: implement safe integer division, that is, a function that
@@ -165,4 +165,4 @@ eitherDiv x y = Right (div x y)
 addEithers :: Either String Int -> Either String Int -> Either String Int
 addEithers (Left a) _ = Left (a)
 addEithers (Right a) (Right b) = Right (a + b)
-addEithers (Right a) (Left b) = Left (b)
+addEithers _ b = b

@@ -127,7 +127,7 @@ smallestDivisor a = smallestDivisor' a 2
 smallestDivisor' :: Integer -> Integer -> Integer
 smallestDivisor' a n
   | mod a n == 0 = n
-  | otherwise = smallestDivisor' a (n+1)
+  | otherwise    = smallestDivisor' a (n+1)
 ------------------------------------------------------------------------------
 -- Ex 7: implement a function isPrime that checks if the given number
 -- is a prime number. Use the function smallestDivisor.
@@ -138,8 +138,7 @@ isPrime :: Integer -> Bool
 isPrime n
   | n == 0                = False
   | n == 1                = False
-  | smallestDivisor n < n = False
-  | otherwise             = True
+  | otherwise             = smallestDivisor n == n
 
 ------------------------------------------------------------------------------
 -- Ex 8: implement a function biggestPrimeAtMost that returns the
@@ -154,4 +153,4 @@ isPrime n
 --   biggestPrimeAtMost 10 ==> 7
 
 biggestPrimeAtMost :: Integer -> Integer
-biggestPrimeAtMost n = head (reverse (filter isPrime [0..n]))
+biggestPrimeAtMost n = last (filter isPrime [0..n])

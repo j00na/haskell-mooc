@@ -39,7 +39,8 @@ import Mooc.Todo
 --   buildList 7 0 3 ==> [3]
 
 buildList :: Int -> Int -> Int -> [Int]
-buildList start count end = todo
+buildList start 0 end     = [end]
+buildList start count end = start : buildList start (count-1) end
 
 ------------------------------------------------------------------------------
 -- Ex 2: given i, build the list of sums [1, 1+2, 1+2+3, .., 1+2+..+i]
@@ -50,6 +51,11 @@ buildList start count end = todo
 
 sums :: Int -> [Int]
 sums i = todo
+--sums i = sums' i 1
+
+-- sums' :: Int -> Int -> Int -> [Int]
+-- sums' i cur 0     = [cur + i]
+-- sums' i cur count = cur : sums' i (cur + count) (count + 1)
 
 ------------------------------------------------------------------------------
 -- Ex 3: define a function mylast that returns the last value of the
@@ -63,7 +69,9 @@ sums i = todo
 --   mylast 0 [1,2,3] ==> 3
 
 mylast :: a -> [a] -> a
-mylast def xs = todo
+mylast def []     = def
+mylast def [x]    = x
+mylast def (x:xs) = mylast def xs
 
 ------------------------------------------------------------------------------
 -- Ex 4: safe list indexing. Define a function indexDefault so that
@@ -81,7 +89,9 @@ mylast def xs = todo
 --   indexDefault ["a","b","c"] (-1) "d" ==> "d"
 
 indexDefault :: [a] -> Int -> a -> a
-indexDefault xs i def = todo
+indexDefault [] i def     = def
+indexDefault (x:xs) 0 def = x
+indexDefault (x:xs) i def = indexDefault xs (i - 1) def
 
 ------------------------------------------------------------------------------
 -- Ex 5: define a function that checks if the given list is in
@@ -90,7 +100,10 @@ indexDefault xs i def = todo
 -- Use pattern matching and recursion to iterate through the list.
 
 sorted :: [Int] -> Bool
-sorted xs = todo
+sorted []       = True
+sorted [x]      = True
+sorted [x,y]    = x <= y
+sorted (x:y:xs) = x <= y && sorted (y:xs)
 
 ------------------------------------------------------------------------------
 -- Ex 6: compute the partial sums of the given list like this:

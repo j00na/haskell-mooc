@@ -56,7 +56,7 @@ mapMaybe f Nothing  = Nothing
 
 mapMaybe2 :: (a -> b -> c) -> Maybe a -> Maybe b -> Maybe c
 mapMaybe2 f (Just x) (Just y) = Just (f x y)
-mapMaybe2 f _ _               = Nothing
+mapMaybe2 f _        _        = Nothing
 
 ------------------------------------------------------------------------------
 -- Ex 4: define the functions firstHalf and palindrome so that
@@ -192,11 +192,7 @@ joinToLength len xs = [x ++ y | x <- xs, y <- xs, length (x ++ y) == len]
 --   [] +|+ []            ==> []
 
 (+|+) :: [a] -> [a] -> [a]
-xs +|+ ys
-  | null (xs ++ ys) = []
-  | null xs         = [head ys]
-  | null ys         = [head xs]
-  | otherwise       = [head xs, head ys]
+xs +|+ ys = take 1 xs ++ take 1 ys
 
 ------------------------------------------------------------------------------
 -- Ex 11: remember the lectureParticipants example from Lecture 2? We
@@ -288,5 +284,12 @@ multiApp f gs x = f $ ($ x) <$> gs
 interpreter :: [String] -> [String]
 interpreter commands = interpreter' commands 0 0 []
 
+interpreter' :: [String] -> Int -> Int -> [String] -> [String]
 interpreter' [] x y result = result
-interpreter' [] x y result = result
+interpreter' (c : cs) x y result
+  | c == "up"     = interpreter' cs x (y+1) result
+  | c == "down"   = interpreter' cs x (y-1) result
+  | c == "right"  = interpreter' cs (x+1) y result
+  | c == "left"   = interpreter' cs (x-1) y result
+  | c == "printY" = interpreter' cs x y (result ++ [show y])
+  | c == "printX" = interpreter' cs x y (result ++ [show x])

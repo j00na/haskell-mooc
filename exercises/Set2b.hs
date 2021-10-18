@@ -153,4 +153,4 @@ isPrime n
 --   biggestPrimeAtMost 10 ==> 7
 
 biggestPrimeAtMost :: Integer -> Integer
-biggestPrimeAtMost n = last (filter isPrime [0..n])
+biggestPrimeAtMost n = last $ filter isPrime [0..n]

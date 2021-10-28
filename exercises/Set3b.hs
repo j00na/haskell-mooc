@@ -55,7 +55,7 @@ sums i = sums' i 1 2 []
 sums' :: Int -> Int -> Int -> [Int] -> [Int]
 sums' i cur count result
   | count == (i + 2) = result
-  | otherwise = cur : sums' i (cur + count) (count + 1) result
+  | otherwise        = cur : sums' i (cur + count) (count + 1) result
 
 ------------------------------------------------------------------------------
 -- Ex 3: define a function mylast that returns the last value of the
@@ -118,7 +118,7 @@ sumsOf :: [Int] -> [Int]
 sumsOf xs = sumsOf' 0 xs
 
 sumsOf' :: Int -> [Int] -> [Int]
-sumsOf' acc [] = []
+sumsOf' acc []     = []
 sumsOf' acc (x:xs) = (x+acc) : sumsOf' (x+acc) xs
 
 ------------------------------------------------------------------------------

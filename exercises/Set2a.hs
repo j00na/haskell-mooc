@@ -117,7 +117,7 @@ safeDiv x y = Just (div x y)
 --   greet "John" (Just "Smith")  ==> "Hello, John Smith!"
 
 greet :: String -> Maybe String -> String
-greet first Nothing = "Hello, " ++ first ++ "!"
+greet first Nothing     = "Hello, " ++ first ++ "!"
 greet first (Just last) = "Hello, " ++ first ++ " " ++ last ++ "!"
 
 ------------------------------------------------------------------------------
@@ -163,6 +163,6 @@ eitherDiv x y = Right (div x y)
 --   addEithers (Left "boom") (Left "fail") ==> Left "boom"
 
 addEithers :: Either String Int -> Either String Int -> Either String Int
-addEithers (Left a) _ = Left (a)
+addEithers (Left a)  _         = Left (a)
 addEithers (Right a) (Right b) = Right (a + b)
-addEithers _ b = b
+addEithers _         b         = b

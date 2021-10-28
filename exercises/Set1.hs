@@ -25,12 +25,13 @@ one :: Int
 one = 1
 two :: Int
 two = 2
+
 ------------------------------------------------------------------------------
 -- Ex 2: define the function double of type Integer->Integer. Double
 -- should take one argument and return it multiplied by two.
 
 double :: Integer -> Integer
-double x = x * 2
+double = (*2)
 
 ------------------------------------------------------------------------------
 -- Ex 3: define the function quadruple that uses the function double
@@ -38,7 +39,7 @@ double x = x * 2
 -- four.
 
 quadruple :: Integer -> Integer
-quadruple x = double (double x)
+quadruple = double . double
 
 ------------------------------------------------------------------------------
 -- Ex 4: define the function distance. It should take four arguments of

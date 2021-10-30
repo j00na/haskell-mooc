@@ -21,6 +21,7 @@ import Data.List
 import Data.Ord
 import qualified Data.Map as Map
 import Data.Array
+import Data.Maybe (fromJust)
 
 ------------------------------------------------------------------------------
 -- Ex 1: implement the function allEqual which returns True if all
@@ -51,7 +52,7 @@ allEqual xs = (length $ nub xs) == 1
 --   distinct [1,2] ==> True
 
 distinct :: Eq a => [a] -> Bool
-distinct xs = (length $ nub xs) == length xs
+distinct xs = xs == nub xs
 
 ------------------------------------------------------------------------------
 -- Ex 3: implement the function middle that returns the middle value
@@ -65,7 +66,7 @@ distinct xs = (length $ nub xs) == length xs
 --   middle 1 7 3        ==> 3
 
 middle :: Ord a => a -> a -> a -> a
-middle x y z = (sort [x,y,z]) !! 1
+middle x y z = sort [x,y,z] !! 1
 
 ------------------------------------------------------------------------------
 -- Ex 4: return the range of an input list, that is, the difference
@@ -152,7 +153,10 @@ average xs = sum xs / fromIntegral (length xs)
 --     ==> "Lisa"
 
 winner :: Map.Map String Int -> String -> String -> String
-winner scores player1 player2 = todo
+winner scores player1 player2
+  | score player2 > score player1 = player2
+  | otherwise                     = player1
+  where score player = Map.findWithDefault 0 player scores
 
 ------------------------------------------------------------------------------
 -- Ex 9: compute how many times each value in the list occurs. Return
@@ -167,7 +171,7 @@ winner scores player1 player2 = todo
 --     ==> Map.fromList [(False,3),(True,1)]
 
 freqs :: (Eq a, Ord a) => [a] -> Map.Map a Int
-freqs xs = todo
+freqs xs = Map.fromList [(head x, length x) | x <- group $ sort xs]
 
 ------------------------------------------------------------------------------
 -- Ex 10: recall the withdraw example from the course material. Write a
@@ -195,7 +199,12 @@ freqs xs = todo
 --     ==> fromList [("Bob",100),("Mike",50)]
 
 transfer :: String -> String -> Int -> Map.Map String Int -> Map.Map String Int
-transfer from to amount bank = todo
+transfer from to amount bank =
+  let fromBalance = fromJust (Map.lookup from bank)
+      toBalance   = fromJust (Map.lookup to   bank)
+  in if and [Map.member from bank,Map.member to bank,amount >= 0,fromBalance >= amount]
+     then Map.adjust (+amount) to (Map.adjust (\x -> x-amount) from bank)
+     else bank
 
 ------------------------------------------------------------------------------
 -- Ex 11: given an Array and two indices, swap the elements in the indices.
@@ -205,7 +214,7 @@ transfer from to amount bank = todo
 --         ==> array (1,4) [(1,"one"),(2,"three"),(3,"two"),(4,"four")]
 
 swap :: Ix i => i -> i -> Array i a -> Array i a
-swap i j arr = todo
+swap i j arr = arr // [(i, arr ! j), (j, arr ! i)]
 
 ------------------------------------------------------------------------------
 -- Ex 12: given an Array, find the index of the largest element. You
@@ -216,4 +225,4 @@ swap i j arr = todo
 -- Hint: check out Data.Array.indices or Data.Array.assocs
 
 maxIndex :: (Ix i, Ord a) => Array i a -> i
-maxIndex = todo
+maxIndex arr = fst $ maximumBy (comparing snd) (assocs arr)

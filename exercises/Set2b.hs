@@ -65,7 +65,7 @@ myGcd a b
   | a == 0    = b
   | b == 0    = a
   | a > b     = myGcd (a-b) b
-  | otherwise = myGcd a (b-a)
+  | otherwise = myGcd a     (b-a)
 
 ------------------------------------------------------------------------------
 -- Ex 4: Implement the function leftpad which adds space characters
@@ -136,9 +136,9 @@ smallestDivisor' a n
 
 isPrime :: Integer -> Bool
 isPrime n
-  | n == 0                = False
-  | n == 1                = False
-  | otherwise             = smallestDivisor n == n
+  | n == 0    = False
+  | n == 1    = False
+  | otherwise = smallestDivisor n == n
 
 ------------------------------------------------------------------------------
 -- Ex 8: implement a function biggestPrimeAtMost that returns the

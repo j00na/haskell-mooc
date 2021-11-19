@@ -37,7 +37,7 @@ import Data.Maybe (fromJust)
 
 allEqual :: Eq a => [a] -> Bool
 allEqual [] = True
-allEqual xs = (length $ nub xs) == 1
+allEqual xs = all (==head xs) xs
 
 ------------------------------------------------------------------------------
 -- Ex 2: implement the function distinct which returns True if all
@@ -101,8 +101,8 @@ rangeOf xs = maximum xs - minimum xs
 --   longest ["bcd","def","ab"] ==> "bcd"
 
 longest :: Ord a => [[a]] -> [a]
-longest xs = snd $ minimumBy (comparing fst) xss
-  where xss = [(head x, x) | x <- xs, length x == maximum (map (length) xs)]
+longest xs = minimumBy (comparing head) xss
+  where xss = [x | x <- xs, length x == (maximum $ length <$> xs)]
 
 ------------------------------------------------------------------------------
 -- Ex 6: Implement the function incrementKey, that takes a list of

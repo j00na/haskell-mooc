@@ -89,9 +89,9 @@ mylast def (x:xs) = mylast def xs
 --   indexDefault ["a","b","c"] (-1) "d" ==> "d"
 
 indexDefault :: [a] -> Int -> a -> a
-indexDefault [] i def     = def
-indexDefault (x:xs) 0 def = x
-indexDefault (x:xs) i def = indexDefault xs (i-1) def
+indexDefault []     _ def = def
+indexDefault (x:_)  0 def = x
+indexDefault (_:xs) i def = indexDefault xs (i-1) def
 
 ------------------------------------------------------------------------------
 -- Ex 5: define a function that checks if the given list is in
@@ -102,7 +102,6 @@ indexDefault (x:xs) i def = indexDefault xs (i-1) def
 sorted :: [Int] -> Bool
 sorted []       = True
 sorted [x]      = True
-sorted [x,y]    = x <= y
 sorted (x:y:xs) = x <= y && sorted (y:xs)
 
 ------------------------------------------------------------------------------
@@ -173,7 +172,7 @@ mymaximum bigger initial (x:xs)
 
 map2 :: (a -> b -> c) -> [a] -> [b] -> [c]
 map2 f (a:as) (b:bs) = f a b : map2 f as bs
-map2 f _      _      = []
+map2 _ _      _      = []
 
 ------------------------------------------------------------------------------
 -- Ex 10: implement the function maybeMap, which works a bit like a

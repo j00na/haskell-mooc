@@ -55,8 +55,8 @@ maxHelper = max
 sumAndLength :: [Double] -> (Double,Int)
 sumAndLength xs = foldr slHelper slStart xs
 
-slStart = (0,0)
-slHelper x (sum,len) = (sum+x,len+1)
+slStart = (0, 0)
+slHelper x (sum, len) = (sum + x, len + 1)
 
 ------------------------------------------------------------------------------
 -- Ex 4: implement concat with a fold. Define concatHelper and

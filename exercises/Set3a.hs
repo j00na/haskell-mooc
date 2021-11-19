@@ -286,7 +286,7 @@ interpreter commands = interpreter' commands 0 0 []
 
 interpreter' :: [String] -> Int -> Int -> [String] -> [String]
 interpreter' [] x y result = result
-interpreter' (c : cs) x y result
+interpreter' (c:cs) x y result
   | c == "up"     = interpreter' cs x     (y+1) result
   | c == "down"   = interpreter' cs x     (y-1) result
   | c == "right"  = interpreter' cs (x+1) y     result

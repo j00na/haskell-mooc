@@ -40,10 +40,7 @@ treeSize (Node _ l r) = 1 + treeSize l + treeSize r
 
 treeMax :: Tree Int -> Int
 treeMax Empty = 0
-treeMax (Node x l r) = biggest x (treeMax l) (treeMax r)
-
-biggest :: Int -> Int -> Int -> Int
-biggest = (max .) . max
+treeMax (Node x l r) = maximum [x, treeMax l, treeMax r]
 
 ------------------------------------------------------------------------------
 -- Ex 4: implement a function that checks if all tree values satisfy a
@@ -178,8 +175,10 @@ data Step = StepL | StepR
 --   walk [StepL,StepL] (Node 1 (Node 2 Empty Empty) Empty)  ==>  Nothing
 
 walk :: [Step] -> Tree a -> Maybe a
-walk = todo
-
+walk steps        Empty        = Nothing
+walk []           (Node x _ _) = Just x
+walk (StepL:rest) (Node x l _) = walk rest l
+walk (StepR:rest) (Node x _ r) = walk rest r
 ------------------------------------------------------------------------------
 -- Ex 9: given a tree, a path and a value, set the value at the end of
 -- the path to the given value. Since Haskell datastructures are
@@ -199,8 +198,10 @@ walk = todo
 --   set [StepL,StepR] 1 (Node 0 Empty Empty)  ==>  (Node 0 Empty Empty)
 
 set :: [Step] -> a -> Tree a -> Tree a
-set path val tree = todo
-
+set _            _   Empty        = Empty
+set []           val (Node x l r) = Node val l r
+set (StepL:rest) val (Node x l r) = Node x (set rest val l) r
+set (StepR:rest) val (Node x l r) = Node x l (set rest val r)
 ------------------------------------------------------------------------------
 -- Ex 10: given a value and a tree, return a path that goes from the
 -- root to the value. If the value doesn't exist in the tree, return Nothing.
@@ -215,4 +216,11 @@ set path val tree = todo
 --                    (Node 5 Empty Empty))                     ==>  Just [StepL,StepR]
 
 search :: Eq a => a -> Tree a -> Maybe [Step]
-search = todo
+search _ Empty = Nothing
+search v (Node v' l r)
+  | v==v' = Just []
+  | otherwise = case search v l of
+                  Just xs -> Just (StepL:xs)
+                  Nothing -> case search v r of
+                    Just xs -> Just (StepR:xs)
+                    Nothing -> Nothing

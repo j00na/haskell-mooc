@@ -155,7 +155,7 @@ cull val (Node x l r)
 --                     (Node 3 Empty Empty))   ==>   True
 
 isOrdered :: Ord a => Tree a -> Bool
-isOrdered Empty       = True
+isOrdered Empty        = True
 isOrdered (Node x l r) = and [allValues (<x) l, allValues (>x) r, isOrdered l, isOrdered r]
 
 ------------------------------------------------------------------------------
@@ -217,8 +217,8 @@ set (StepR:rest) val (Node x l r) = Node x l (set rest val r)
 
 search :: Eq a => a -> Tree a -> Maybe [Step]
 search _ Empty = Nothing
-search v (Node v' l r)
-  | v==v' = Just []
+search v (Node x l r)
+  | v==x      = Just []
   | otherwise = case search v l of
                   Just xs -> Just (StepL:xs)
                   Nothing -> case search v r of

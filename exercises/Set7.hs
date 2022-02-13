@@ -26,11 +26,11 @@ data Velocity = Velocity Double
 
 -- velocity computes a velocity given a distance and a time
 velocity :: Distance -> Time -> Velocity
-velocity = todo
+velocity (Distance d) (Time t) = Velocity (d/t)
 
 -- travel computes a distance given a velocity and a time
 travel :: Velocity -> Time -> Distance
-travel = todo
+travel (Velocity v) (Time t) = Distance (t*v)
 
 ------------------------------------------------------------------------------
 -- Ex 2: let's implement a simple Set datatype. A Set is a list of
@@ -49,15 +49,15 @@ data Set a = Set [a]
 
 -- emptySet is a set with no elements
 emptySet :: Set a
-emptySet = todo
+emptySet = Set []
 
 -- member tests if an element is in a set
 member :: Eq a => a -> Set a -> Bool
-member = todo
+member x (Set xs) = elem x xs
 
 -- add a member to a set
-add :: a -> Set a -> Set a
-add = todo
+add :: (Eq a, Ord a) => a -> Set a -> Set a
+add x s@(Set xs) = if member x s then Set xs else Set $ sort (x:xs)
 
 ------------------------------------------------------------------------------
 -- Ex 3: a state machine for baking a cake. The type Event represents
@@ -92,10 +92,19 @@ add = todo
 data Event = AddEggs | AddFlour | AddSugar | Mix | Bake
   deriving (Eq,Show)
 
-data State = Start | Error | Finished
+data State = Start | Eggs | Flour | Sugar | SugarFlour | Mixed | Baked |  Error | Finished
   deriving (Eq,Show)
 
-step = todo
+step :: State -> Event -> State
+step Start      AddEggs  = Eggs
+step Eggs       AddFlour = Flour
+step Eggs       AddSugar = Sugar
+step Flour      AddSugar = SugarFlour
+step Sugar      AddFlour = SugarFlour
+step SugarFlour Mix      = Mixed
+step Mixed      Bake     = Finished
+step Finished   _        = Finished
+step _          _        = Error
 
 -- do not edit this
 bake :: [Event] -> State
@@ -113,13 +122,14 @@ bake events = go Start events
 --   average (1.0 :| [2.0,3.0])  ==>  2.0
 
 average :: Fractional a => NonEmpty a -> a
-average = todo
+average (x :| xs) = (x + sum xs) / fromIntegral (1 + length xs)
 
 ------------------------------------------------------------------------------
 -- Ex 5: reverse a NonEmpty list.
 
 reverseNonEmpty :: NonEmpty a -> NonEmpty a
-reverseNonEmpty = todo
+reverseNonEmpty a@(x :| []) = a
+reverseNonEmpty   (x :| xs) = last xs :| tail (reverse xs) ++ [x]
 
 ------------------------------------------------------------------------------
 -- Ex 6: implement Semigroup instances for the Distance, Time and
@@ -131,6 +141,14 @@ reverseNonEmpty = todo
 -- velocity (Distance 50 <> Distance 10) (Time 1 <> Time 2)
 --    ==> Velocity 20
 
+instance Semigroup Distance where
+  Distance x <> Distance y = Distance (x+y)
+
+instance Semigroup Time where
+  Time x <> Time y = Time (x+y)
+
+instance Semigroup Velocity where
+  Velocity x <> Velocity y = Velocity (x+y)
 
 ------------------------------------------------------------------------------
 -- Ex 7: implement a Monoid instance for the Set type from exercise 2.
@@ -213,7 +231,11 @@ data PasswordRequirement =
   deriving Show
 
 passwordAllowed :: String -> PasswordRequirement -> Bool
-passwordAllowed = todo
+passwordAllowed s (MinimumLength n)   = length s >= n
+passwordAllowed s (ContainsSome xs)   = any (\x -> elem x s) xs
+passwordAllowed s (DoesNotContain xs) = not $ any (\x -> elem x s) xs
+passwordAllowed s (And pr1 pr2)       = passwordAllowed s pr1 && passwordAllowed s pr2
+passwordAllowed s (Or pr1 pr2)        = passwordAllowed s pr1 || passwordAllowed s pr2
 
 ------------------------------------------------------------------------------
 -- Ex 10: a DSL for simple arithmetic expressions with addition and

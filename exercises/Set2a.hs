@@ -60,7 +60,7 @@ updateAt i x xs = take i xs ++ [x] ++ drop (i + 1) xs
 --   substring 0 4 "abcdefgh"  ==>  "abcd"
 
 substring :: Int -> Int -> String -> String
-substring i j s = drop i (take j s)
+substring i j s = drop i $ take j s
 
 ------------------------------------------------------------------------------
 -- Ex 5: check if a string is a palindrome. A palindrome is a string
@@ -91,7 +91,7 @@ isPalindrome str = str == reverse str
 palindromify :: String -> String
 palindromify s
   | isPalindrome s = s
-  | otherwise      = palindromify (tail (init s))
+  | otherwise      = palindromify $ tail $ init s
 
 ------------------------------------------------------------------------------
 -- Ex 7: implement safe integer division, that is, a function that

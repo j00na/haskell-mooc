@@ -98,7 +98,7 @@ palindrome s = s == reverse s
 --   capitalize "goodbye cruel world" ==> "Goodbye Cruel World"
 
 capitalize :: String -> String
-capitalize s = unwords $ map (\(x:xs) -> toUpper x : xs) (words s)
+capitalize s = unwords $ map (\(x:xs) -> toUpper x:xs) (words s)
 
 ------------------------------------------------------------------------------
 -- Ex 6: powers k max should return all the powers of k that are less
@@ -157,13 +157,13 @@ while check update value
 --   whileRight (step 1000) 3  ==> 1536
 
 whileRight :: (a -> Either b a) -> a -> b
-whileRight f x = case f x of Left b -> b
+whileRight f x = case f x of Left b  -> b
                              Right a -> whileRight f a
 
 -- for the whileRight examples:
 -- step k x doubles x if it's less than k
 step :: Int -> Int -> Either Int Int
-step k x = if x<k then Right (2*x) else Left x
+step k x = if x < k then Right (2 * x) else Left x
 
 ------------------------------------------------------------------------------
 -- Ex 9: given a list of strings and a length, return all strings that
